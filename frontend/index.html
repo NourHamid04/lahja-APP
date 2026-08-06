@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#080b18" />
+    <meta name="description" content="Lahja transforms Arabic dialects and Arabizi while preserving meaning and tone." />
+    <title>Lahja — Arabic Dialect Transformer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="logo" href="#" aria-label="Lahja home">
+          <span class="logo-mark" aria-hidden="true"><span></span><span></span></span>
+          <span>Lahja</span>
+        </a>
+        <nav aria-label="Primary navigation">
+          <a class="active" href="#translator">Translator</a>
+          <a href="#features">Features</a>
+          <a href="#examples">Examples</a>
+          <a href="http://localhost:8000/docs" target="_blank" rel="noreferrer">API Docs</a>
+        </nav>
+        <button class="ghost-button" id="history-toggle" type="button"><span aria-hidden="true">◷</span> History</button>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div>
+            <span class="eyebrow">Arabic, as people actually speak it</span>
+            <h1 id="hero-title">Understand every Arabic.<br /><span>Speak every dialect.</span></h1>
+            <p>Transform Arabic dialects, Arabizi, and mixed chat text while preserving the real meaning and tone.</p>
+            <div class="trust-row"><span>◆ Arabizi aware</span><span>◆ Meaning-first</span><span>◆ Built for RTL</span></div>
+          </div>
+          <div class="hero-orbit" aria-hidden="true">
+            <div class="globe">لَهْجَة</div>
+            <span class="orbit-chip chip-one">شامي</span>
+            <span class="orbit-chip chip-two">مصري</span>
+            <span class="orbit-chip chip-three">خليجي</span>
+          </div>
+        </section>
+
+        <section class="translator-card" id="translator" aria-label="Dialect transformer">
+          <div class="translator-toolbar">
+            <label class="field compact-field" for="source-dialect"><span>From</span><select id="source-dialect"></select></label>
+            <button class="swap-button" id="swap-button" type="button" aria-label="Swap dialects">⇄</button>
+            <label class="field compact-field" for="target-dialect"><span>To</span><select id="target-dialect"></select></label>
+            <label class="field compact-field small-field" for="tone">
+              <span>Tone</span>
+              <select id="tone"><option value="neutral">Neutral</option><option value="casual" selected>Casual</option><option value="friendly">Friendly</option><option value="formal">Formal</option></select>
+            </label>
+          </div>
+
+          <div class="editor-grid">
+            <article class="editor-panel">
+              <div class="panel-heading">
+                <div><strong>Your message</strong><span>Arabic, Arabizi, or mixed</span></div>
+                <label class="inline-select" for="input-script"><span>Input</span><select id="input-script"><option value="auto">Auto detect</option><option value="arabic">Arabic script</option><option value="arabizi">Arabizi</option><option value="mixed">Mixed</option></select></label>
+              </div>
+              <textarea id="source-text" maxlength="2000" placeholder="مثال: مرحبا كيفك؟ أو mar7aba kifak?" aria-label="Text to transform">mar7aba kifak shu l akhbar</textarea>
+              <div class="editor-footer"><span id="character-count">28 / 2000</span><button id="clear-button" type="button">Clear</button></div>
+            </article>
+
+            <article class="editor-panel output-panel">
+              <div class="panel-heading">
+                <div><strong id="output-title">Natural Syrian Arabic</strong><span id="output-meta">Your transformed message appears here</span></div>
+                <label class="inline-select" for="output-script"><span>Output</span><select id="output-script"><option value="arabic">Arabic script</option><option value="arabizi">Arabizi</option></select></label>
+              </div>
+              <div class="result-area empty" id="result-area" dir="rtl">
+                <div class="empty-state"><span>لهجة</span><p>Meaning preserved. Dialect transformed.</p></div>
+              </div>
+              <div class="editor-footer output-actions"><span id="confidence-label">Ready</span><button id="copy-button" type="button" disabled>Copy</button></div>
+            </article>
+          </div>
+
+          <div id="alerts" aria-live="polite"></div>
+          <div class="insight-grid" id="insight-grid" hidden></div>
+
+          <div class="primary-action-row">
+            <button class="primary-button" id="transform-button" type="button">Transform dialect <span aria-hidden="true">✦</span></button>
+            <p>Your API key never enters the browser.</p>
+          </div>
+        </section>
+
+        <section class="feature-grid" id="features">
+          <article><span class="feature-icon">ع</span><h2>Dialect-aware</h2><p>Choose a specific target variety instead of receiving generic Standard Arabic.</p></article>
+          <article><span class="feature-icon">7</span><h2>Arabizi support</h2><p>Understands context-sensitive digits and mixed English-Arabic chat writing.</p></article>
+          <article><span class="feature-icon">✦</span><h2>Structured results</h2><p>Get confidence, detected dialect, warnings, notes, and useful alternatives.</p></article>
+          <article><span class="feature-icon">⌁</span><h2>Developer ready</h2><p>FastAPI endpoint, generated API docs, validation, CORS, and rate limiting.</p></article>
+        </section>
+
+        <section class="examples-section" id="examples">
+          <div class="section-heading"><div><span class="eyebrow">Try it quickly</span><h2>Example conversations</h2></div><p>Use these to verify that your frontend and backend are connected.</p></div>
+          <div class="example-grid">
+            <button class="example-card" type="button" data-source="lebanese" data-target="syrian" data-text="mar7aba kifak shu l akhbar"><span>Lebanese → Syrian</span><strong dir="ltr">mar7aba kifak shu l akhbar</strong><small>Load example →</small></button>
+            <button class="example-card" type="button" data-source="egyptian" data-target="lebanese" data-text="عامل ايه النهارده؟"><span>Egyptian → Lebanese</span><strong dir="rtl">عامل ايه النهارده؟</strong><small>Load example →</small></button>
+            <button class="example-card" type="button" data-source="msa" data-target="egyptian" data-text="كيف حالك اليوم؟ أتمنى أن تكون بخير."><span>MSA → Egyptian</span><strong dir="rtl">كيف حالك اليوم؟ أتمنى أن تكون بخير.</strong><small>Load example →</small></button>
+          </div>
+        </section>
+      </main>
+
+      <aside class="history-drawer" id="history-drawer" aria-hidden="true">
+        <div class="drawer-heading"><div><span class="eyebrow">Saved locally</span><h2>Recent translations</h2></div><button id="history-close" type="button" aria-label="Close history">×</button></div>
+        <div id="history-list"></div>
+        <button class="clear-history" id="clear-history" type="button" hidden>Clear history</button>
+      </aside>
+      <button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="Close history" hidden></button>
+
+      <footer>
+        <div class="logo"><span class="logo-mark" aria-hidden="true"><span></span><span></span></span><span>Lahja</span></div>
+        <p>Built as a testable MVP. Dialect quality should be evaluated by native speakers before production.</p>
+      </footer>
+    </div>
+
+    <script src="./config.js"></script>
+    <script src="./app.js" defer></script>
+  </body>
+</html>
